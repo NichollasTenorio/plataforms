@@ -2,7 +2,7 @@
     "name": "admin/plataforms",
     "autoload": {
         "psr-4": {
-            "Admin\\Plataforms\\": "src/"
+            "app\\": "videosystem/app/"
         }
     },
     "authors": [

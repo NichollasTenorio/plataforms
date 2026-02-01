@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Admin\\Plataforms\\' => array($baseDir . '/src'),
+    'app\\' => array($baseDir . '/videosystem/app'),
 );
