@@ -99,9 +99,9 @@ class Playlist
 {
     public function __construct(
         private string $playlistName,
-        private string $playlistDescription
-    )
-    {}
+        private string $playlistDescription,
+        private array $videoList
+    ){}
 
     public function setPlaylistName($playlistName):void
     {
@@ -118,15 +118,25 @@ class Playlist
         $this->playlistDescription = $playlistDescription;
     }
 
-    public function get():string
+    public function getPlaylistDescription():string
     {
         return $this->playlistName;
     }
 
     public function showPlaylistInformation():void
     {   
-        echo "<strong>Playlist</strong> <br/>";
-        echo "Nome: {$this->playlistName} | Descrição: {$this->playlistDescription} <br/> <br/>";
+        echo "<strong><br>{$this->getPlaylistName()}</strong> <br/>";
+        echo "Nome: {$this->playlistName} Descrição: {$this->playlistDescription} <br/> <br/>";
+        echo "<strong>Videos dentro da playlist: {$this->getPlaylistName()}</strong>";
+        $this->convertList();
+
+    }
+
+    public function convertList():void
+    {
+        foreach($this->videoList as $videos){
+            echo "<br> Título: {$videos->getVideoName()} <br> Descrição: {$videos->getVideoDescription()} <br> Data de publicação: {$videos->getVideoPublicationDate()} <br>";
+        }
     }
 
 
@@ -150,12 +160,44 @@ $secondVideo = new Video(
     '05/08/2025'
 );
 
-$firstPlaylist = new Playlist(
-    'Estudos de Programação',
-    'é o que ta no título bocó'
+$thirdVideo = new Video(
+    'Composição de Objetos JAVA',
+    'Tutorial sobre como utilizar Agregação, Composição, Associação',
+    '14/07/2022'
 );
 
-$firstChannel->showChannelInformation();
-$secondVideo->showVideoInformation();
-$firstVideo->showVideoInformation();
+$fourthVideo = new Video(
+    'Estrutura de dados em JAVA',
+    'Tutorial sobre estrutura de dados',
+    '18/10/2023'
+);
+
+$firstVideoList = [
+    $secondVideo,
+    $firstVideo
+];
+
+$secondVideoList = [
+    $thirdVideo,
+    $fourthVideo
+];
+
+$secondPlaylist = new Playlist(
+    'Estudando Java',
+    'Estudo básico da linguagem Java',
+    $secondVideoList
+);
+
+$firstPlaylist = new Playlist(
+    'POO - PHP',
+    'é o que ta no título bocó',
+    $firstVideoList
+);
+
+// $firstChannel->showChannelInformation();
+// $secondVideo->showVideoInformation();
+// $firstVideo->showVideoInformation();
 $firstPlaylist->showPlaylistInformation();
+$secondPlaylist->showPlaylistInformation();
+
+//Como criar listas/arrays em classes
