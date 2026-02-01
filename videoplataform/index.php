@@ -9,9 +9,11 @@ class Channel
     public function __construct(
         private string $channelName,
         private string $channelDescription,
-        private int $channelSubs
+        private int $channelSubs,
     )
     {}
+
+    private array $playlists = [];
 
     public function setChannelName($channelName):void
     {
@@ -46,7 +48,24 @@ class Channel
     public function showChannelInformation():void
     {
         echo "<strong>Canal</strong> <br/>";
-        echo "Nome: {$this->channelName} | Descrição {$this->channelDescription} | Inscritos: {$this->channelSubs} <br/><br/>";
+        echo "Nome: {$this->channelName} | Descrição {$this->channelDescription} | Inscritos: {$this->channelSubs} <br/>";
+    }
+
+    public function createPlaylist(
+        string $playlistName,
+        string $playlistDescription,
+        array $videoList
+    ):Playlist
+    {
+        $newPlaylist = new Playlist($playlistName, $playlistDescription, $videoList, $this);
+        $this->playlists[] = $newPlaylist;
+
+        return $newPlaylist;
+    }
+
+    public function getPlaylist()
+    {
+        return $this->playlists;
     }
 }
 
@@ -100,7 +119,8 @@ class Playlist
     public function __construct(
         private string $playlistName,
         private string $playlistDescription,
-        private array $videoList
+        private array $videoList,
+        private Channel $channel
     ){}
 
     public function setPlaylistName($playlistName):void
@@ -120,13 +140,13 @@ class Playlist
 
     public function getPlaylistDescription():string
     {
-        return $this->playlistName;
+        return $this->playlistDescription;
     }
 
     public function showPlaylistInformation():void
     {   
         echo "<strong><br>{$this->getPlaylistName()}</strong> <br/>";
-        echo "Nome: {$this->playlistName} Descrição: {$this->playlistDescription} <br/> <br/>";
+        echo "Nome: {$this->playlistName} | Descrição: {$this->playlistDescription} <br/> <br/>";
         echo "<strong>Videos dentro da playlist: {$this->getPlaylistName()}</strong>";
         $this->convertList();
 
@@ -139,11 +159,15 @@ class Playlist
         }
     }
 
+    public function addVideo(Video $videoForPlaylist):void
+    {
+        $this->videoList[] = $videoForPlaylist;
+    }
 
 }
 
 $firstChannel = new Channel(
-    'nicaoboldao',
+    'nicaoboladao',
     'paixão por programar',
     5000
 );
@@ -172,6 +196,18 @@ $fourthVideo = new Video(
     '18/10/2023'
 );
 
+$fifthVideo = new Video(
+    'Hollow Knight - SpeedRun',
+    'zerando hollow knight kkkkk',
+    '07/02/2024'
+);
+
+$sixthVideo = new Video(
+    'Reflexão para a vida',
+    'reflexões, aproveita ae',
+    '10/10/2025'
+);
+
 $firstVideoList = [
     $secondVideo,
     $firstVideo
@@ -182,22 +218,39 @@ $secondVideoList = [
     $fourthVideo
 ];
 
-$secondPlaylist = new Playlist(
-    'Estudando Java',
-    'Estudo básico da linguagem Java',
-    $secondVideoList
-);
+$thirdVideoList = [
+    $fifthVideo,
+    $sixthVideo
+];
 
-$firstPlaylist = new Playlist(
-    'POO - PHP',
-    'é o que ta no título bocó',
-    $firstVideoList
-);
+// $firstPlaylist = new Playlist(
+//     'POO - PHP',
+//     'é o que ta no título bocó',
+//     $firstVideoList
+// );
+
+// $secondPlaylist = new Playlist(
+//     'Estudando Java',
+//     'Estudo básico da linguagem Java',
+//     $secondVideoList
+// );
 
 // $firstChannel->showChannelInformation();
 // $secondVideo->showVideoInformation();
 // $firstVideo->showVideoInformation();
-$firstPlaylist->showPlaylistInformation();
-$secondPlaylist->showPlaylistInformation();
+$firstChannel->createPlaylist('Favoritos', 'Vídeos Favoritos', $thirdVideoList);
+$firstChannel->createPlaylist('POO - PHP','é o que ta no título bocó',$firstVideoList);
+$firstChannel->createPlaylist('Estudando Java', 'Estudo básico da linguagem Java', $secondVideoList );
 
+$firstChannel->showChannelInformation();
+$firstChannel->getPlaylist()[0]->addVideo($secondVideo);
+// $firstChannel->getPlaylist()[1]->showPlaylistInformation();
+// $firstChannel->getPlaylist()[2]->showPlaylistInformation();
+
+foreach($firstChannel->getPlaylist() as $playlists){
+    $playlists->showPlaylistInformation();
+}
+
+// $firstPlaylist->showPlaylistInformation();
+// $secondPlaylist->showPlaylistInformation();
 //Como criar listas/arrays em classes
