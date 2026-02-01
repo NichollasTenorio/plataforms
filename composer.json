@@ -1,0 +1,15 @@
+{
+    "name": "admin/plataforms",
+    "autoload": {
+        "psr-4": {
+            "Admin\\Plataforms\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nichollas Tenório",
+            "email": "nichollas.tenorio.sj@gmail.com"
+        }
+    ],
+    "require": {}
+}
